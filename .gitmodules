@@ -1,0 +1,3 @@
+[submodule "sjy-build-logic"]
+	path = sjy-build-logic
+	url = https://github.com/Sanjaya-Inc/sjy-build-logic.git
