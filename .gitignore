@@ -26,3 +26,4 @@ local.properties
 /.idea/deploymentTargetSelector.xml
 /.idea/inspectionProfiles/
 /.idea/artifacts/
+/ktoon-core/build/

@@ -26,7 +26,7 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
         }
         commonMain.dependencies {
-
+            implementation(project(":ktoon-core"))
         }
     }
 }
