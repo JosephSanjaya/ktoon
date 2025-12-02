@@ -21,3 +21,8 @@ local.properties
 /.idea/vcs.xml
 /.idea/compiler.xml
 /.idea/kotlinc.xml
+/composeApp/build/**
+/.kotlin/**
+/.idea/deploymentTargetSelector.xml
+/.idea/inspectionProfiles/
+/.idea/artifacts/
