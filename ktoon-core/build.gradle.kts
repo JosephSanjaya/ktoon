@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 plugins {
     alias(sjy.plugins.buildlogic.multiplatform.lib)
     alias(sjy.plugins.buildlogic.multiplatform.cmp)
+    alias(sjy.plugins.kotlin.serialization)
     alias(libs.plugins.composeHotReload)
 }
 
@@ -20,6 +21,12 @@ kotlin {
     }
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(sjy.kotlin.serialization)
+        }
+        commonTest.dependencies {
+            implementation(sjy.kotlin.test)
+        }
         webMain.dependencies {
             implementation(libs.kotlinx.browser)
         }
