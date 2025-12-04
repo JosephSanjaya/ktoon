@@ -158,10 +158,10 @@ Real-time format comparison with live backend server.
 
 ```bash
 # Start the backend server
-gradle :backend:run
+./gradlew :backend:run
 
 # Run the Compose Multiplatform app
-gradle :composeApp:run
+./gradlew :composeApp:run
 
 # Or test with curl
 curl -H "Accept: application/json" http://localhost:8080/users
