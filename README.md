@@ -19,7 +19,9 @@
 
 ## 🎯 What is KToon?
 
-KToon is a Kotlin Multiplatform serialization library implementing the **TOON format** (Token-Oriented Object Notation). Think of it as JSON's efficient cousin—perfect for mobile apps, IoT devices, and anywhere bandwidth matters.
+KToon is a Kotlin Multiplatform serialization library implementing the **TOON format** (Token-Oriented Object Notation). Think of it as JSON's efficient cousin—perfect for mobile apps, IoT devices, and anywhere bandwidth matters. Build for [kiroween hackaton](https://devpost.com/software/ktoon) 
+
+Read Articles: [here](https://medium.com/@sanjayajosep/ktoon-tiny-tables-big-savings-plug-toon-into-your-serializable-kotlin-classes-4bf6f65c208f)
 
 **JSON (553 bytes):**
 ```json
