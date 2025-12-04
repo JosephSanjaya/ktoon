@@ -27,4 +27,6 @@ local.properties
 /.idea/inspectionProfiles/
 /.idea/artifacts/
 /ktoon-core/build/
+/ktoon-ktor/build/
+/ktoon-ktor-server/build/
 /.idea/markdown.xml

@@ -20,6 +20,10 @@
 
 ### Networking
 - Ktor 3.3.3 (client with CIO, Darwin, OkHttp engines)
+  - ktoon-ktor module: TOON format ContentNegotiation integration for Ktor HttpClient
+  - Automatic serialization/deserialization of request/response bodies
+  - Custom Toon instance support for advanced configuration
+  - Client-side only (does not support Ktor Server)
 - Ktorfit 2.6.5
 - OkHttp 5.3.2
 

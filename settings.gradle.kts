@@ -40,3 +40,5 @@ plugins {
 
 include(":composeApp")
 include(":ktoon-core")
+include(":ktoon-ktor")
+include(":ktoon-ktor-server")

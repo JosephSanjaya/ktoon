@@ -79,6 +79,56 @@ Shared library module for TOON serialization format implementation.
 - Pure Kotlin implementation using only stdlib and kotlinx.serialization
 - Deterministic serialization produces identical output across all platforms
 
+#### `ktoon-ktor`
+Ktor ContentNegotiation integration library for TOON format (client-side only).
+
+**Implementation Status:**
+- ✅ ToonContentConverter implementing Ktor's ContentConverter interface
+- ✅ Client-side ContentNegotiation extension function
+- ✅ Request body serialization to TOON format
+- ✅ Response body deserialization from TOON format
+- ✅ Custom Toon instance support
+- ✅ Charset handling (UTF-8 default)
+- ✅ Null handling for requests and responses
+- ✅ Error preservation with detailed context
+- ✅ Comprehensive test suite:
+  - Annotation support tests (@SerialName, @Transient)
+  - Custom configuration tests
+  - Error handling tests
+  - Null handling tests
+  - Polymorphic type tests
+  - SerialName tests
+- ✅ Complete documentation:
+  - README with installation and usage
+  - EXAMPLES with comprehensive scenarios
+  - API documentation with full reference
+
+**Limitations:**
+- Client-side only (Ktor HttpClient)
+- Does not support Ktor Server (would require separate extension function)
+
+**Source Sets:**
+- `commonMain/` - Platform-agnostic integration code
+  - `kotlin/io/ktoon/ktor/` - Ktor integration
+    - `ToonContentConverter.kt` - ContentConverter implementation (internal)
+    - `ContentNegotiationExt.kt` - Extension function for registration (public API)
+- `commonTest/` - Cross-platform tests
+  - `ToonContentConverterAnnotationTest.kt` - Annotation support tests
+  - `ToonContentConverterCustomConfigTest.kt` - Custom configuration tests
+  - `ToonContentConverterErrorHandlingTest.kt` - Error handling tests
+  - `ToonContentConverterNullHandlingTest.kt` - Null handling tests
+  - `ToonContentConverterPolymorphicTest.kt` - Polymorphic type tests
+  - `ToonContentConverterSerialNameTest.kt` - SerialName tests
+- `androidMain/` - Empty (no platform-specific code needed)
+- `iosMain/` - Empty (no platform-specific code needed)
+- `jvmMain/` - Empty (no platform-specific code needed)
+- `webMain/` - Empty (no platform-specific code needed)
+
+**Platform Support:**
+- Pure Kotlin implementation using only Ktor and ktoon-core APIs
+- Works on all Kotlin Multiplatform targets
+- No platform-specific code required
+
 #### `iosApp`
 Native iOS application wrapper (Xcode project).
 - `iosApp.xcodeproj/` - Xcode project configuration
@@ -114,6 +164,13 @@ io.ktoon/
 └── ToonLexer.kt               # Tokenization with indentation awareness (internal)
     ├── Token                  # Sealed class for token types
     └── TableHeaderInfo        # Data class for table header parsing
+```
+
+### ktoon-ktor Module
+```
+io.ktoon.ktor/
+├── ToonContentConverter.kt    # ContentConverter implementation (internal)
+└── ContentNegotiationExt.kt   # Extension function for registration (public API)
 ```
 
 ### Platform-Specific Code

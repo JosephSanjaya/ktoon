@@ -10,6 +10,7 @@ espressoCore = "3.7.0"
 composeHotReload = "1.0.0-rc04"
 kotlinx-coroutines = "1.10.2"
 kotlinx-browser = "0.5.0"
+kotest = "5.9.1"
 
 [libraries]
 kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
@@ -17,6 +18,7 @@ kotlinx-browser = { module = "org.jetbrains.kotlinx:kotlinx-browser", version.re
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 
 [plugins]
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }

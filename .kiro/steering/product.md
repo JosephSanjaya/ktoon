@@ -28,6 +28,7 @@ KToon is a Kotlin Multiplatform serialization library implementing the **TOON (T
 ## Package Structure
 - Base package: `io.ktoon`
 - Core library: `ktoon-core` module (serialization engine)
+- Ktor integration: `ktoon-ktor` module (Ktor HttpClient ContentNegotiation)
 - Demo app: `composeApp` module (showcases KToon integration)
 
 ## Project Type
@@ -89,8 +90,11 @@ Multi-module Kotlin Multiplatform library with shared serialization logic and pl
 
 **In Progress:**
 - ⏳ Property-based testing for correctness properties
-- ⏳ Documentation and usage examples
+
+**ktoon-core Documentation:**
 - ⏳ README with installation and usage guide
+- ⏳ API documentation
+- ⏳ Format specification document
 
 ### Implementation Architecture
 - **Public API**: `Toon` object implementing `StringFormat`
@@ -111,3 +115,77 @@ Multi-module Kotlin Multiplatform library with shared serialization logic and pl
   - No expect/actual declarations required
   - Deterministic output across all platforms
   - See `ktoon-core/PLATFORM_SUPPORT.md` for details
+
+## Ktor Integration (ktoon-ktor)
+
+### Implementation Status
+
+**Completed Features:**
+- ✅ Ktor HttpClient ContentNegotiation integration
+- ✅ ToonContentConverter implementing ContentConverter interface
+- ✅ Automatic request body serialization to TOON format
+- ✅ Automatic response body deserialization from TOON format
+- ✅ Custom Toon instance support with custom serializers
+- ✅ Content-Type registration ("application/toon" default)
+- ✅ Charset handling (UTF-8 default, respects server charset)
+- ✅ Null handling for request/response bodies
+- ✅ Error preservation with detailed context from ToonDecoder
+- ✅ Full kotlinx.serialization annotation support
+- ✅ Comprehensive test suite covering all features
+- ✅ Complete documentation:
+  - README.md - Installation, usage, configuration
+  - EXAMPLES.md - Comprehensive usage scenarios
+  - API.md - Complete API reference
+
+**Limitations:**
+- Client-side only (Ktor HttpClient)
+- Does not support Ktor Server ContentNegotiation
+- In-memory processing (not suitable for very large payloads > 10MB)
+- No streaming support
+
+**Future Enhancements:**
+- Ktor Server support (requires separate extension function)
+- Streaming serialization/deserialization for large payloads
+- Compression integration
+
+### Usage Example
+
+```kotlin
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktoon.ktor.toon
+
+val client = HttpClient(CIO) {
+    install(ContentNegotiation) {
+        toon()  // Register TOON format
+    }
+}
+
+@Serializable
+data class User(val id: Int, val name: String)
+
+// Automatic serialization/deserialization
+val user = client.post("https://api.example.com/users") {
+    contentType(ContentType.parse("application/toon"))
+    setBody(User(1, "Alice"))
+}.body<User>()
+```
+
+### Integration Architecture
+
+```
+Ktor HttpClient
+    ↓
+ContentNegotiation Plugin
+    ↓
+ToonContentConverter (implements ContentConverter)
+    ↓
+ktoon-core (Toon.encodeToString / Toon.decodeFromString)
+```
+
+### Platform Support
+- Pure Kotlin implementation
+- Works on all Kotlin Multiplatform targets
+- No platform-specific code required
+- Same behavior across JVM, Android, iOS, JS, and Wasm

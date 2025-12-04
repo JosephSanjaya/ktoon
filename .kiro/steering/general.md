@@ -8,6 +8,10 @@ inclusion: always
 
 - Windows operating system - ensure all terminal commands support powershell only
 - Use `gradle` from environment instead of `gradlew` for all Gradle tasks
+- For faster compilation, use specific compile tasks instead of full build:
+  - ktoon-core: `gradle :ktoon-core:compileKotlinJvm`
+  - ktoon-ktor: `gradle :ktoon-ktor:compileKotlinJvm`
+  - Avoid using `:build` as it takes too long
 
 ## Code Style
 
