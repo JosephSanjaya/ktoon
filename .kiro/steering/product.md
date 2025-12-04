@@ -116,9 +116,11 @@ Multi-module Kotlin Multiplatform library with shared serialization logic and pl
   - Deterministic output across all platforms
   - See `ktoon-core/PLATFORM_SUPPORT.md` for details
 
-## Ktor Integration (ktoon-ktor)
+## Ktor Integration
 
-### Implementation Status
+### ktoon-ktor (Client-Side)
+
+**Implementation Status:**
 
 **Completed Features:**
 - ✅ Ktor HttpClient ContentNegotiation integration
@@ -139,14 +141,48 @@ Multi-module Kotlin Multiplatform library with shared serialization logic and pl
 
 **Limitations:**
 - Client-side only (Ktor HttpClient)
-- Does not support Ktor Server ContentNegotiation
 - In-memory processing (not suitable for very large payloads > 10MB)
 - No streaming support
 
 **Future Enhancements:**
-- Ktor Server support (requires separate extension function)
 - Streaming serialization/deserialization for large payloads
 - Compression integration
+
+### ktoon-ktor-server (Server-Side)
+
+**Implementation Status:**
+
+**Completed Features:**
+- ✅ Ktor Server ContentNegotiation integration
+- ✅ ToonContentConverter implementing ContentConverter interface for server
+- ✅ Automatic request body deserialization from TOON format
+- ✅ Automatic response body serialization to TOON format
+- ✅ Custom Toon instance support with custom serializers
+- ✅ Content-Type registration ("application/toon" default)
+- ✅ Charset handling (UTF-8 default, respects client charset)
+- ✅ Null handling for request/response bodies
+- ✅ Error preservation with detailed context
+- ✅ Full kotlinx.serialization annotation support
+- ✅ Complete documentation:
+  - README.md - Installation, usage, configuration
+  - EXAMPLES.md - Comprehensive usage scenarios
+  - API.md - Complete API reference
+  - DEMO.md - Demo server application guide
+
+**Verified Features:**
+- ✅ Accept header-based content negotiation (application/json vs application/toon)
+- ✅ Table mode for collection responses
+- ✅ Token savings: 67.4% reduction compared to JSON (verified with 5-user dataset)
+- ✅ Proper Content-Type headers in responses
+
+**Known Issues:**
+- ktoon-core has unnecessary Compose dependencies causing transitive dependency issues
+- Workaround: Manual TOON formatting or dependency exclusions in consuming projects
+
+**Future Enhancements:**
+- Streaming serialization/deserialization for large payloads
+- Compression integration
+- Clean up ktoon-core dependencies
 
 ### Usage Example
 
@@ -174,8 +210,20 @@ val user = client.post("https://api.example.com/users") {
 
 ### Integration Architecture
 
+**Client-Side (ktoon-ktor):**
 ```
 Ktor HttpClient
+    ↓
+ContentNegotiation Plugin
+    ↓
+ToonContentConverter (implements ContentConverter)
+    ↓
+ktoon-core (Toon.encodeToString / Toon.decodeFromString)
+```
+
+**Server-Side (ktoon-ktor-server):**
+```
+Ktor Server
     ↓
 ContentNegotiation Plugin
     ↓
@@ -189,3 +237,32 @@ ktoon-core (Toon.encodeToString / Toon.decodeFromString)
 - Works on all Kotlin Multiplatform targets
 - No platform-specific code required
 - Same behavior across JVM, Android, iOS, JS, and Wasm
+
+### Demo Application (backend module)
+
+A standalone JVM backend server demonstrating TOON format serialization:
+
+**Features:**
+- Ktor Server with Netty engine on port 8080
+- GET /users endpoint with sample user data
+- Accept header-based format selection (application/json or application/toon)
+- Demonstrates 67.4% token savings with TOON format
+
+**Verified Results:**
+- JSON response: 553 bytes (~138 tokens)
+- TOON response: 179 bytes (~45 tokens)
+- Token savings: 67.4% reduction
+
+**Usage:**
+```bash
+# Start server
+gradle :backend:run
+
+# Test JSON format
+curl -H "Accept: application/json" http://localhost:8080/users
+
+# Test TOON format
+curl -H "Accept: application/toon" http://localhost:8080/users
+```
+
+See `backend/TEST_RESULTS.md` for comprehensive test validation.

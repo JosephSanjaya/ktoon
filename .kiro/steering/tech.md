@@ -19,11 +19,16 @@
 - KSP for annotation processing
 
 ### Networking
-- Ktor 3.3.3 (client with CIO, Darwin, OkHttp engines)
-  - ktoon-ktor module: TOON format ContentNegotiation integration for Ktor HttpClient
-  - Automatic serialization/deserialization of request/response bodies
-  - Custom Toon instance support for advanced configuration
-  - Client-side only (does not support Ktor Server)
+- Ktor 3.3.3
+  - **Client**: CIO, Darwin, OkHttp engines
+    - ktoon-ktor module: TOON format ContentNegotiation integration for Ktor HttpClient
+    - Automatic serialization/deserialization of request/response bodies
+    - Custom Toon instance support for advanced configuration
+  - **Server**: Netty engine
+    - ktoon-ktor-server module: TOON format ContentNegotiation integration for Ktor Server
+    - Automatic request deserialization and response serialization
+    - Accept header-based content negotiation
+    - Verified 67.4% token savings vs JSON
 - Ktorfit 2.6.5
 - OkHttp 5.3.2
 
@@ -80,40 +85,63 @@
 ### Build & Run
 ```bash
 # Build the project
-./gradlew build
+gradle build
 
 # Run Android app
-./gradlew :composeApp:installDebug
+gradle :composeApp:installDebug
 
 # Run Desktop app
-./gradlew :composeApp:run
+gradle :composeApp:run
 
 # Run JS app
-./gradlew :composeApp:jsBrowserDevelopmentRun
+gradle :composeApp:jsBrowserDevelopmentRun
 
 # Run WASM app
-./gradlew :composeApp:wasmJsBrowserDevelopmentRun
+gradle :composeApp:wasmJsBrowserDevelopmentRun
+
+# Run backend server
+gradle :backend:run
 ```
 
 ### Code Quality
 ```bash
 # Run Detekt
-./gradlew detekt
+gradle detekt
 
 # Run tests
-./gradlew test
+gradle test
+
+# Run tests for specific module
+gradle :ktoon-core:test
+gradle :ktoon-ktor:test
+gradle :ktoon-ktor-server:test
 
 # Generate coverage report
-./gradlew jacocoTestReport
+gradle jacocoTestReport
 ```
 
 ### Clean & Sync
 ```bash
 # Clean build
-./gradlew clean
+gradle clean
 
 # Sync dependencies
-./gradlew --refresh-dependencies
+gradle --refresh-dependencies
+```
+
+### Backend Server Testing
+```bash
+# Start backend server
+gradle :backend:run
+
+# Test JSON endpoint
+curl -H "Accept: application/json" http://localhost:8080/users
+
+# Test TOON endpoint
+curl -H "Accept: application/toon" http://localhost:8080/users
+
+# Test root endpoint
+curl http://localhost:8080/
 ```
 
 ## Platform-Specific Notes

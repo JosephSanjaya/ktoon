@@ -27,7 +27,7 @@ internal class ToonContentConverter(
         return try {
             val serializer = toon.serializersModule.serializer(typeInfo.kotlinType!!)
             val toonString = toon.encodeToString(serializer, value)
-            val bytes = toonString.toByteArray(charset)
+            val bytes = toonString.encodeToByteArray()
             
             io.ktor.http.content.ByteArrayContent(
                 bytes,

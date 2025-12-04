@@ -5,6 +5,7 @@ plugins {
     alias(sjy.plugins.buildlogic.multiplatform.app)
     alias(sjy.plugins.buildlogic.multiplatform.cmp)
     alias(libs.plugins.composeHotReload)
+    alias(sjy.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -21,12 +22,42 @@ kotlin {
     }
 
     sourceSets {
+        commonMain.dependencies {
+            // Compose Material3
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            
+            // Ktor Client
+            implementation(sjy.ktor.content.negotiation)
+            implementation(sjy.ktor.serialization)
+            
+            // Project dependencies
+            implementation(project(":ktoon-core"))
+            implementation(project(":ktoon-ktor"))
+            
+            // Serialization
+            implementation(sjy.kotlin.serialization)
+        }
+        
+        androidMain.dependencies {
+            implementation(sjy.ktor.okhttp)
+        }
+        
+        iosMain.dependencies {
+            implementation(sjy.ktor.darwin)
+        }
+        
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            implementation(sjy.ktor.cio)
         }
-        commonMain.dependencies {
-            implementation(project(":ktoon-core"))
+        
+        commonTest.dependencies {
+            implementation(libs.kotest.property)
+            implementation(kotlin("test"))
         }
     }
 }

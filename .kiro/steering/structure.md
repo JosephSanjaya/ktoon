@@ -129,6 +129,76 @@ Ktor ContentNegotiation integration library for TOON format (client-side only).
 - Works on all Kotlin Multiplatform targets
 - No platform-specific code required
 
+#### `ktoon-ktor-server`
+Ktor Server ContentNegotiation integration library for TOON format (server-side).
+
+**Implementation Status:**
+- ✅ ToonContentConverter implementing Ktor's ContentConverter interface for server
+- ✅ Server-side ContentNegotiation extension function
+- ✅ Request body deserialization from TOON format
+- ✅ Response body serialization to TOON format
+- ✅ Custom Toon instance support
+- ✅ Charset handling (UTF-8 default)
+- ✅ Null handling for requests and responses
+- ✅ Error preservation with detailed context
+- ✅ Complete documentation:
+  - README with installation and usage
+  - EXAMPLES with comprehensive scenarios
+  - API documentation with full reference
+  - DEMO with example server application
+
+**Source Sets:**
+- `commonMain/` - Platform-agnostic integration code
+  - `kotlin/io/ktoon/ktor/server/` - Ktor Server integration
+    - `ToonContentConverter.kt` - ContentConverter implementation (internal)
+    - `ContentNegotiationExt.kt` - Extension function for registration (public API)
+- `commonTest/` - Cross-platform tests
+- `androidMain/` - Empty (no platform-specific code needed)
+- `iosMain/` - Empty (no platform-specific code needed)
+- `jvmMain/` - Empty (no platform-specific code needed)
+- `webMain/` - Empty (no platform-specific code needed)
+
+**Platform Support:**
+- Pure Kotlin implementation using only Ktor Server and ktoon-core APIs
+- Works on all Kotlin Multiplatform targets that support Ktor Server
+- No platform-specific code required
+
+#### `backend`
+Standalone JVM backend server module demonstrating TOON format serialization with Ktor Server.
+
+**Purpose:**
+- Demonstrates ktoon-ktor-server integration
+- Provides working example of TOON format in server responses
+- Shows token savings comparison between JSON and TOON formats
+
+**Implementation:**
+- ✅ Ktor Server with Netty engine
+- ✅ ContentNegotiation with JSON and TOON support
+- ✅ GET /users endpoint returning sample data
+- ✅ Accept header-based format selection
+- ✅ Manual TOON table mode formatting (temporary workaround)
+- ✅ Comprehensive test results documentation
+
+**Source Structure:**
+- `src/main/kotlin/io/ktoon/backend/`
+  - `Application.kt` - Main server entry point with routing
+  - `models/User.kt` - Sample data model
+- `src/main/resources/`
+  - `logback.xml` - Logging configuration
+- `README.md` - Usage instructions and examples
+- `TEST_RESULTS.md` - Comprehensive test validation results
+
+**Build Configuration:**
+- JVM-only module (not multiplatform)
+- Uses Ktor Server 3.3.3
+- Application plugin for executable JAR
+- Main class: `io.ktoon.backend.ApplicationKt`
+
+**Known Issues:**
+- ktoon-core has unnecessary Compose dependencies that cause build issues
+- Temporary workaround: Manual TOON formatting instead of ktoon-ktor-server
+- Future: Clean up ktoon-core dependencies or create separate serialization-only module
+
 #### `iosApp`
 Native iOS application wrapper (Xcode project).
 - `iosApp.xcodeproj/` - Xcode project configuration
@@ -171,6 +241,21 @@ io.ktoon/
 io.ktoon.ktor/
 ├── ToonContentConverter.kt    # ContentConverter implementation (internal)
 └── ContentNegotiationExt.kt   # Extension function for registration (public API)
+```
+
+### ktoon-ktor-server Module
+```
+io.ktoon.ktor.server/
+├── ToonContentConverter.kt    # Server ContentConverter implementation (internal)
+└── ContentNegotiationExt.kt   # Server extension function for registration (public API)
+```
+
+### backend Module
+```
+io.ktoon.backend/
+├── Application.kt             # Main server entry point with routing
+└── models/
+    └── User.kt                # Sample data model
 ```
 
 ### Platform-Specific Code

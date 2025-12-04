@@ -87,3 +87,54 @@ inclusion: always
   - WebAssembly: `gradle :ktoon-core:compileKotlinWasmJs`
 - Deterministic serialization produces identical output across all platforms
 - See `ktoon-core/PLATFORM_SUPPORT.md` for comprehensive documentation
+
+## Backend Server Development
+
+### Ktor Server Integration
+- Use ktoon-ktor-server module for TOON format support in Ktor Server
+- Install ContentNegotiation plugin with both JSON and TOON converters
+- Server automatically selects format based on Accept header
+- TOON format uses "application/toon" content type
+
+### Content Negotiation Pattern
+```kotlin
+install(ContentNegotiation) {
+    json()  // For application/json
+    toon()  // For application/toon
+}
+```
+
+### Accept Header Handling
+- `Accept: application/json` → JSON response
+- `Accept: application/toon` → TOON response
+- No Accept header → Default to JSON
+
+### Manual TOON Formatting (Workaround)
+When ktoon-ktor-server has dependency issues, use manual formatting:
+```kotlin
+when {
+    acceptHeader.contains("application/toon") -> {
+        val toonResponse = buildString {
+            appendLine("collection[size]{fields}:")
+            items.forEach { item ->
+                appendLine("  ${item.field1},${item.field2},...")
+            }
+        }.trimEnd()
+        call.respondText(toonResponse, ContentType.parse("application/toon"))
+    }
+    else -> call.respond(items)  // JSON
+}
+```
+
+### Testing Backend Servers
+1. Start server: `gradle :backend:run`
+2. Test with curl using Accept headers
+3. Compare response sizes and token counts
+4. Document results in TEST_RESULTS.md
+5. Verify table mode format structure
+
+### Known Issues
+- ktoon-core has unnecessary Compose dependencies
+- Causes transitive dependency resolution failures in JVM-only projects
+- Workaround: Manual TOON formatting or dependency exclusions
+- Future: Separate ktoon-serialization module without Compose dependencies

@@ -1,48 +1,33 @@
 package io.ktoon
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-
-import ktoon.composeapp.generated.resources.Res
-import ktoon.composeapp.generated.resources.compose_multiplatform
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import io.ktoon.api.ApiClient
+import io.ktoon.navigation.Screen
+import io.ktoon.screens.HomeScreen
+import io.ktoon.screens.KtorDemoScreen
+import io.ktoon.theme.DemoAppTheme
 
 @Composable
-@Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+    val apiClient = remember { ApiClient() }
+    var currentScreen by remember { mutableStateOf<Screen>(Screen.Home) }
+    
+    DemoAppTheme {
+        when (currentScreen) {
+            Screen.Home -> {
+                HomeScreen(
+                    onNavigateToKtor = { currentScreen = Screen.KtorDemo }
+                )
             }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
+            Screen.KtorDemo -> {
+                KtorDemoScreen(
+                    apiClient = apiClient,
+                    onNavigateBack = { currentScreen = Screen.Home }
+                )
             }
         }
     }
