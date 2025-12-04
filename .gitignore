@@ -29,4 +29,5 @@ local.properties
 /ktoon-core/build/
 /ktoon-ktor/build/
 /ktoon-ktor-server/build/
+/backend/build/
 /.idea/markdown.xml
