@@ -62,16 +62,7 @@ git clone https://github.com/JosephSanjaya/ktoon.git
 
 Add to your `settings.gradle.kts`:
 ```kotlin
-includeBuild("path/to/ktoon")
-```
-
-Add dependencies to your `build.gradle.kts`:
-```kotlin
-dependencies {
-    implementation("io.ktoon:ktoon-core:0.1.0")
-    implementation("io.ktoon:ktoon-ktor:0.1.0")        // For Ktor client
-    implementation("io.ktoon:ktoon-ktor-server:0.1.0") // For Ktor server
-}
+include(:<"path/to/ktoon">)
 ```
 
 ### Basic Usage
@@ -218,16 +209,8 @@ ktoon/
 
 ## 🛣️ Roadmap
 
-### v0.2.0 - Core Improvements
-- [ ] Property-based testing for correctness
-- [ ] Streaming support for large datasets (>10MB)
-- [ ] Schema validation and versioning
-- [ ] Performance benchmarks
-
 ### v0.3.0 - More Integrations
 - [ ] **Retrofit support** - ContentConverter for Retrofit
-- [ ] Room database integration
-- [ ] DataStore integration
 - [ ] OkHttp interceptor
 
 ### v1.0.0 - Production Ready
