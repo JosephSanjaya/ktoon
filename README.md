@@ -244,6 +244,10 @@ KToon brings proven efficiency techniques to the entire Kotlin ecosystem. Whethe
 
 <div align="center">
 
+## Star History
+
+[![Star History](https://api.star-history.com/svg?repos=JosephSanjaya/ktoon&type=Date)](https://star-history.com/#JosephSanjaya/ktoon&Date)
+
 Made with ☕ by developers who care about efficiency
 
 [⭐ Star us on GitHub](https://github.com/JosephSanjaya/ktoon) • [📖 Read the docs](ABOUT.md) • [💬 Join discussions](https://github.com/JosephSanjaya/ktoon/discussions)
