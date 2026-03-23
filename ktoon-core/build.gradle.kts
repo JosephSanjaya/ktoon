@@ -8,6 +8,9 @@ plugins {
 }
 
 kotlin {
+    android {
+        namespace = "io.ktoon.core"
+    }
     jvm()
     js {
         browser()
@@ -37,19 +40,7 @@ kotlin {
         }
     }
 }
-android {
-    namespace = "io.ktoon.core"
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+
+ktorfit {
+    compilerPluginVersion.set("2.3.3")
 }

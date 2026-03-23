@@ -6,16 +6,16 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiationConfig
 
 /**
  * Registers TOON format support with Ktor's ContentNegotiation plugin.
- * 
+ *
  * This extension function enables automatic serialization and deserialization
  * of Kotlin objects using the token-efficient TOON format for HTTP requests
  * and responses.
- * 
+ *
  * @param contentType The content type to register for TOON format.
  *                    Defaults to "application/toon".
  * @param toon The Toon instance to use for serialization/deserialization.
  *             Defaults to Toon.Default for zero-configuration usage.
- * 
+ *
  * Example usage:
  * ```kotlin
  * val client = HttpClient(CIO) {
@@ -24,7 +24,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiationConfig
  *     }
  * }
  * ```
- * 
+ *
  * Example with custom configuration:
  * ```kotlin
  * val customToon = Toon(
@@ -32,7 +32,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiationConfig
  *         contextual(LocalDateTime::class, LocalDateTimeSerializer)
  *     }
  * )
- * 
+ *
  * val client = HttpClient(CIO) {
  *     install(ContentNegotiation) {
  *         toon(toon = customToon)

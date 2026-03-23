@@ -30,12 +30,12 @@ fun Route.userRoutes() {
             users[user.id] = user
             call.respond(HttpStatusCode.Created, user)
         }
-        
+
         get {
             val userList = users.values.toList()
             call.respond(userList)
         }
-        
+
         get("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
@@ -45,7 +45,7 @@ fun Route.userRoutes() {
                 )
                 return@get
             }
-            
+
             val user = users[id]
             if (user == null) {
                 call.respond(
@@ -54,10 +54,10 @@ fun Route.userRoutes() {
                 )
                 return@get
             }
-            
+
             call.respond(user)
         }
-        
+
         put("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
@@ -67,7 +67,7 @@ fun Route.userRoutes() {
                 )
                 return@put
             }
-            
+
             val existingUser = users[id]
             if (existingUser == null) {
                 call.respond(
@@ -76,7 +76,7 @@ fun Route.userRoutes() {
                 )
                 return@put
             }
-            
+
             val request = call.receive<UpdateUserRequest>()
             val updatedUser = existingUser.copy(
                 name = request.name ?: existingUser.name,
@@ -85,7 +85,7 @@ fun Route.userRoutes() {
             users[id] = updatedUser
             call.respond(updatedUser)
         }
-        
+
         delete("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
@@ -95,7 +95,7 @@ fun Route.userRoutes() {
                 )
                 return@delete
             }
-            
+
             val user = users.remove(id)
             if (user == null) {
                 call.respond(
@@ -104,10 +104,10 @@ fun Route.userRoutes() {
                 )
                 return@delete
             }
-            
+
             call.respond(HttpStatusCode.NoContent)
         }
-        
+
         post("/invalid") {
             throw IllegalStateException("This endpoint intentionally triggers an error")
         }

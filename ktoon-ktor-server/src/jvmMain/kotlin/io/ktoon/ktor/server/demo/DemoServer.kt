@@ -36,7 +36,7 @@ fun Application.demoModule() {
             "$method $path - $status"
         }
     }
-    
+
     install(StatusPages) {
         exception<SerializationException> { call, cause ->
             call.respondText(
@@ -51,19 +51,20 @@ fun Application.demoModule() {
             )
         }
     }
-    
+
     install(Compression) {
         gzip()
     }
-    
+
     install(ContentNegotiation) {
         json()
         toon()
     }
-    
+
     routing {
         get("/") {
-            call.respondText("""
+            call.respondText(
+                """
                 TOON Format Demo Server
                 =======================
                 
@@ -81,9 +82,10 @@ fun Application.demoModule() {
                 
                 Use Accept header to specify response format.
                 Use Content-Type header to specify request format.
-            """.trimIndent())
+                """.trimIndent()
+            )
         }
-        
+
         userRoutes()
     }
 }

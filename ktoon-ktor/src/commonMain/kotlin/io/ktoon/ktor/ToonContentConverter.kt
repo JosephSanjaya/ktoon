@@ -15,7 +15,7 @@ import kotlinx.serialization.serializer
 internal class ToonContentConverter(
     private val toon: Toon = Toon()
 ) : ContentConverter {
-    
+
     override suspend fun serialize(
         contentType: ContentType,
         charset: Charset,
@@ -23,12 +23,12 @@ internal class ToonContentConverter(
         value: Any?
     ): io.ktor.http.content.OutgoingContent? {
         if (value == null) return null
-        
+
         return try {
             val serializer = toon.serializersModule.serializer(typeInfo.kotlinType!!)
             val toonString = toon.encodeToString(serializer, value)
             val bytes = toonString.encodeToByteArray()
-            
+
             io.ktor.http.content.ByteArrayContent(
                 bytes,
                 contentType.withCharset(charset)
@@ -37,7 +37,7 @@ internal class ToonContentConverter(
             throw e
         }
     }
-    
+
     override suspend fun deserialize(
         charset: Charset,
         typeInfo: TypeInfo,
@@ -45,13 +45,13 @@ internal class ToonContentConverter(
     ): Any? {
         return try {
             val contentString = content.readRemaining().readText(charset = charset)
-            
+
             if (contentString.isEmpty()) {
                 if (typeInfo.kotlinType?.isMarkedNullable == true) {
                     return null
                 }
             }
-            
+
             val deserializer = toon.serializersModule.serializer(typeInfo.kotlinType!!)
             toon.decodeFromString(deserializer, contentString)
         } catch (e: SerializationException) {

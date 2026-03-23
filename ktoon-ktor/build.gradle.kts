@@ -6,6 +6,9 @@ plugins {
 }
 
 kotlin {
+    android {
+        namespace = "io.ktoon.ktor"
+    }
     jvm()
     js {
         browser()
@@ -29,23 +32,12 @@ kotlin {
         commonTest.dependencies {
             implementation(sjy.kotlin.test)
             implementation(sjy.coroutines.test)
-            implementation("io.ktor:ktor-client-mock:3.3.3")
+            implementation(libs.ktor.client.mock)
         }
     }
 }
-android {
-    namespace = "io.ktoon.ktor"
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+
+
+ktorfit {
+    compilerPluginVersion.set("2.3.3")
 }
